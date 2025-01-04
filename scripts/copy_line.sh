@@ -26,9 +26,9 @@ add_sleep_for_remote_shells() {
 
 go_to_the_beginning_of_current_line() {
     if [ "$(shell_mode)" == "emacs" ]; then
-        tmux send-key 'C-a'
+        tmux send-keys 'C-a'
     else
-        tmux send-key 'Escape' '0'
+        tmux send-keys 'Escape' '0'
     fi
 }
 
@@ -41,10 +41,10 @@ start_tmux_selection() {
         tmux send -X begin-selection
     elif [ "$TMUX_COPY_MODE" == "vi" ]; then
         # vi copy mode
-        tmux send-key 'Space'
+        tmux send-keys 'Space'
     else
         # emacs copy mode
-        tmux send-key 'C-Space'
+        tmux send-keys 'C-Space'
     fi
 }
 
@@ -59,20 +59,20 @@ end_of_line_in_copy_mode() {
     elif [ "$TMUX_COPY_MODE" == "vi" ]; then
         # vi copy mode
         # This sequence of keys consistently selects multiple lines
-        tmux send-key '150' # Go to the bottom of scrollback buffer by using
-        tmux send-key 'j'   # 'down' key. 'vi' mode is faster so we're
+        tmux send-keys '150' # Go to the bottom of scrollback buffer by using
+        tmux send-keys 'j'   # 'down' key. 'vi' mode is faster so we're
         # jumping more lines than emacs.
-        tmux send-key '$' # End of line (just in case we are already at the last line).
-        tmux send-key 'b' # Beginning of the previous word.
-        tmux send-key 'e' # End of next word.
+        tmux send-keys '$' # End of line (just in case we are already at the last line).
+        tmux send-keys 'b' # Beginning of the previous word.
+        tmux send-keys 'e' # End of next word.
     else
         # emacs copy mode
         for ((c = 1; c <= '30'; c++)); do # go to the bottom of scrollback buffer
             tmux send-key 'C-n'
         done
-        tmux send-key 'C-e'
-        tmux send-key 'M-b'
-        tmux send-key 'M-f'
+        tmux send-keys 'C-e'
+        tmux send-keys 'M-b'
+        tmux send-keys 'M-f'
     fi
 }
 
@@ -81,7 +81,7 @@ yank_to_clipboard() {
         # shellcheck disable=SC2119
         tmux send -X copy-pipe-and-cancel "$(clipboard_copy_command)"
     else
-        tmux send-key "$(yank_wo_newline_key)"
+        tmux send-keys "$(yank_wo_newline_key)"
     fi
 }
 
